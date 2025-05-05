@@ -112,13 +112,13 @@ const { Tolgee, InContextTools, FormatSimple, BackendFetch } = window['@tolgee/w
 
   let options = [
     {
-      text: 'Deutsch',
-      value: 'de-DE'
-    },
-    {
       text: 'English',
       value: 'en'
     },
+    {
+      text: 'Deutsch',
+      value: 'de-DE'
+    }
   ];
 
   const select_menu = document.getElementById("selectpicker");
