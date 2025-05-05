@@ -17,12 +17,12 @@ const { Tolgee, InContextTools, FormatSimple, BackendFetch } = window['@tolgee/w
   .init({
     apiKey: 'tgpak_gy4tox3hmzwtgylqn4zdo3bwonrhc3djob3hk5legnvgkolk',
     apiUrl: 'https://app.tolgee.io',
-    defaultLanguage: 'de-DE',
+    defaultLanguage: 'en',
     observerType: 'text',
     observerOptions: { inputPrefix: '{{', inputSuffix: '}}' }
   });
   tg.run();
-  await tg.changeLanguage('de-DE');
+  // await tg.changeLanguage('de-DE');
 
   jQuery(document).ready(function () {
   jQuery("#nanogallery").nanogallery2({
