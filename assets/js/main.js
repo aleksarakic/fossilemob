@@ -116,10 +116,15 @@ const { Tolgee, InContextTools, FormatSimple, BackendFetch } = window['@tolgee/w
       value: 'en'
     },
     {
-      text: 'Deutsch',
-      value: 'de-DE'
+      text: 'Español',
+      value: 'es-ES'
     }
   ];
+    
+ // {
+   //   text: 'Deutsch',
+     // value: 'de-DE'
+    // },
 
   const select_menu = document.getElementById("selectpicker");
   for (let i = 0; i < options.length; i++) {
