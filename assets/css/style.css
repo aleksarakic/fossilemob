@@ -621,6 +621,16 @@ section {
   margin-bottom: 0;
 }
 
+.about .content {
+  text-align: center;
+}
+
+.about .content ul li {
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+
 /*--------------------------------------------------------------
 # Clients
 --------------------------------------------------------------*/
