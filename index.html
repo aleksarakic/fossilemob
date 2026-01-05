@@ -688,6 +688,76 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('.php-email-form');
+  
+  // Remove any existing submit handlers
+  const newForm = form.cloneNode(true);
+  form.parentNode.replaceChild(newForm, form);
+  
+  newForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    
+    const errorDiv = newForm.querySelector('.error-message');
+    const successDiv = newForm.querySelector('.sent-message');
+    const submitBtn = newForm.querySelector('.submit-btn');
+    
+    // Hide messages
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+    
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    
+    try {
+      const formData = new FormData(newForm);
+      
+      const response = await fetch(newForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      const data = await response.json();
+
+      debugger
+      
+      if (response.ok) {
+        // Success
+        successDiv.style.display = 'block';
+        newForm.reset();
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          successDiv.style.display = 'none';
+        }, 5000);
+      } else {
+        // Handle Formspree errors
+        if (data.errors) {
+          errorDiv.textContent = data.errors.map(e => e.message).join(', ');
+        } else {
+          errorDiv.textContent = 'Oops! Something went wrong. Please try again.';
+        }
+        errorDiv.style.display = 'block';
+      }
+    } catch (error) {
+      // Show error message
+      errorDiv.textContent = 'Oops! Something went wrong. Please try again.';
+      errorDiv.style.display = 'block';
+    } finally {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+    }
+  });
+});
+</script>
+
 </body>
 
 </html>
