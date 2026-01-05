@@ -344,9 +344,25 @@
 
         <div class="text-center">
           <h3>{{schedule_meeting}}</h3>
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc-98IwiFngloPLm5rDTg9fk-NjVGrce0Xr-74g_9T5pgPoJg/viewform?embedded=true" width="640" height="686" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-          <p>{{cta_desc}}</p>
-          <a data-cal-config='{"layout":"month_view"}' data-cal-namespace="meeting" data-cal-link="fossilemob/meeting" class="cta-btn">{{lets_chat}}</a>
+
+
+          <div class="col-lg-8 mx-auto">
+            <form action="https://formspree.io/f/xwvpyylz" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="{{name}}" required="">
+                </div>
+                <div class="col-md-6">
+                  <input type="email" class="form-control" name="email" placeholder="Email" required="">
+                </div>
+                <div class="col-md-12 text-center">
+                    <div class="error-message" style="display: none;"></div>
+                    <div class="sent-message" style="display: none;">Your message has been sent. Thank you!</div>
+                  <button class='submit-btn' type="submit">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div><!-- End Contact Form -->
         </div>
 
       </div>
@@ -517,6 +533,22 @@
 
       </div>
     </section><!-- End Team Section -->
+
+    <!-- Cal inline embed code begins -->
+  <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-meeting"></div>
+    <script type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", "meeting", {origin:"https://app.cal.com"});
+    
+      Cal.ns.meeting("inline", {
+        elementOrSelector:"#my-cal-inline-meeting",
+        config: {"layout":"month_view","theme":"light"},
+        calLink: "fossilemob/meeting",
+      });
+    
+      Cal.ns.meeting("ui", {"theme":"light","hideEventTypeDetails":false,"layout":"month_view"});
+  </script>
+  <!-- Cal inline embed code ends -->
 
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
