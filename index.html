@@ -356,8 +356,8 @@
                   <input type="email" class="form-control" name="email" placeholder="Email" required="">
                 </div>
                 <div class="col-md-12 text-center">
-                    <div class="error-message" style="display: none;"></div>
-                    <div class="sent-message" style="display: none;">Your message has been sent. Thank you!</div>
+                    <div class="error-message" style="display: none; color: #fff !important;"></div>
+                    <div class="sent-message" style="display: none; color: #fff !important;">Your message has been sent. Thank you!</div>
                   <button class='submit-btn' type="submit">Submit</button>
                 </div>
               </div>
@@ -688,73 +688,51 @@
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
-  <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.querySelector('.php-email-form');
+<script>
+document.querySelector('.php-email-form').addEventListener('submit', function(e) {
+  e.preventDefault();
   
-  // Remove any existing submit handlers
-  const newForm = form.cloneNode(true);
-  form.parentNode.replaceChild(newForm, form);
+  const form = this;
+  const errorDiv = form.querySelector('.error-message');
+  const successDiv = form.querySelector('.sent-message');
+  const submitBtn = form.querySelector('.submit-btn');
   
-  newForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
+  // Hide messages
+  errorDiv.style.display = 'none';
+  successDiv.style.display = 'none';
+  
+  // Show loading
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending...';
+  
+  const formData = new FormData(form);
+  const xhr = new XMLHttpRequest();
+  
+  xhr.open('POST', form.action);
+  xhr.setRequestHeader('Accept', 'application/json');
+  
+  xhr.onload = function() {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
     
-    const errorDiv = newForm.querySelector('.error-message');
-    const successDiv = newForm.querySelector('.sent-message');
-    const submitBtn = newForm.querySelector('.submit-btn');
-    
-    // Hide messages
-    errorDiv.style.display = 'none';
-    successDiv.style.display = 'none';
-    
-    // Disable button and show loading state
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-    
-    try {
-      const formData = new FormData(newForm);
-      
-      const response = await fetch(newForm.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      const data = await response.json();
-
-      debugger
-      
-      if (response.ok) {
-        // Success
-        successDiv.style.display = 'block';
-        newForm.reset();
-        
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-          successDiv.style.display = 'none';
-        }, 5000);
-      } else {
-        // Handle Formspree errors
-        if (data.errors) {
-          errorDiv.textContent = data.errors.map(e => e.message).join(', ');
-        } else {
-          errorDiv.textContent = 'Oops! Something went wrong. Please try again.';
-        }
-        errorDiv.style.display = 'block';
-      }
-    } catch (error) {
-      // Show error message
-      errorDiv.textContent = 'Oops! Something went wrong. Please try again.';
+    if (xhr.status === 200) {
+      successDiv.style.display = 'block';
+      form.reset();
+      setTimeout(() => successDiv.style.display = 'none', 5000);
+    } else {
+      errorDiv.textContent = 'Error: ' + (xhr.responseText || 'Please try again');
       errorDiv.style.display = 'block';
-    } finally {
-      // Re-enable button
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit';
     }
-  });
+  };
+  
+  xhr.onerror = function() {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
+    errorDiv.textContent = 'Connection error. Please try again.';
+    errorDiv.style.display = 'block';
+  };
+  
+  xhr.send(formData);
 });
 </script>
 
